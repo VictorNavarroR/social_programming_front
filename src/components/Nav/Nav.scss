@@ -1,0 +1,57 @@
+nav {
+    .login{
+        cursor: pointer;
+        color: white;
+        background-color:transparent !important;
+        border:none;
+        padding-left: 45px;
+    }
+    a{
+        color: white;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        font-weight: 400;
+        padding: 20px 18px;
+        position: relative;
+        z-index: 10;
+        &:before{
+            content: "";
+            display: block;
+            width: 90%;
+            position: absolute;
+            top:-6px;
+            left: 0;
+            right: 0;
+            margin: auto;
+            background: var(--accent-color);
+            display: none;
+        }
+        &.active ,&:hover{
+            color: var(--main-color);
+            text-decoration: none;
+        }
+
+        &:hover:before{
+            color: var(--main-color);
+            display: block;
+            height: 67px;
+            z-index: -1;
+            animation-duration: .5s;
+            animation-name: slidein;
+        }
+        &.active:before{
+            color: var(--main-color);
+            display: block;
+            height: 67px;
+            z-index: -1;
+        } 
+    }
+}
+.responsive-nav-btn{
+    display: none;
+    cursor: pointer;
+}
+.responsive-nav-btn i{
+    margin: 0 10px;
+} 

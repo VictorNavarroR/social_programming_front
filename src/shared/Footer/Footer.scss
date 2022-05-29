@@ -1,0 +1,15 @@
+footer{
+    display: flex;
+    background: var(--main-color);
+    border-top: 4px solid var(--secondary-color);
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+    padding: 40px 0;
+    color: white;
+    font-size: .8rem;
+    margin-top: auto;
+    .logo-footer{
+        margin-bottom: 10px;
+    }
+}

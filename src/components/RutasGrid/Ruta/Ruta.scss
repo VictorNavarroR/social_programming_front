@@ -1,0 +1,65 @@
+.ruta-wrapper{
+    display:flex;
+    flex-direction: column;
+    margin-bottom: 50px;
+    .ruta{
+        display: flex;
+        flex-direction: column;
+        background-color: rgb(23, 23, 23);
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        overflow: hidden;
+        position: relative;
+        z-index: 1;
+        transition: all ease-in-out .3s;
+
+        &:hover{
+            transform: scale(1.02);
+            box-shadow: 0 5px 5px rgba(0,0,0,.3);
+            outline: 1px solid white;
+        }
+        h3{
+            position: relative;
+            z-index: 1;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,.7);
+            font-weight: 400;
+        }
+        img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.5;
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin: auto;
+            z-index: 0;
+        }
+        .ruta-btn{
+            margin-top: 15px;
+            z-index: 1;
+            border: 1px solid var(--accent-color);
+            font-size: .8rem;
+        }
+    }
+.actions{
+    position: relative;
+    justify-self: center;
+    align-items: center;
+    top: 15px;
+    z-index: 10;
+}
+}
+.page-rutas{
+    .rutas-wrap{
+        margin: 70px 0;
+        height: auto;
+    }
+}
+.page-rutas{
+    .ruta{
+        height: 250px;
+    }
+}

@@ -1,0 +1,47 @@
+.admin{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    &__dashboard{
+        width: 1333px;
+    }
+    &__rutas{
+        background-color: red;
+    }
+    &__box-wrapper{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap:30px;
+        padding-bottom:40px;
+    }
+    &__box{
+        display: flex;
+        flex-direction: column;
+        justify-content:center;
+        align-items:center;
+        height:200px;
+        background-color: var(--secondary-color);
+        border-radius: 5px;
+        background-image: url('../../../public/assets/intro.jpg');
+        text-shadow: 0 4px 0 black;
+        h3{
+            color: white;
+            font-size:1.5rem;
+        }
+        div{
+            font-size:3rem;
+            font-weight:bold;
+            color: white;
+        }
+    }
+    .admin__dashboard{
+        width:100%;
+        .admin__box-wrapper{
+            display: flex;
+            width:100%;
+            .admin__box{
+                width:100%;
+            }
+        }
+    }
+}

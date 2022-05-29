@@ -1,0 +1,23 @@
+.tutoriales{
+  width: 1333px;
+  span{
+    color: black;
+  }
+  .tutorialForm{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 40px;
+    input{
+      width: 100%;
+      padding: 15px;
+      margin: 15px 0;
+      border: 1px solid var(--main-color);
+      border-radius: 5px;
+      background-color: rgba(21,151,229, .12);
+    }
+    .primary-btn{
+      align-self: flex-end;
+    }
+  }
+}

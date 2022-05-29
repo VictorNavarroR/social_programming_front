@@ -1,0 +1,16 @@
+.post-title{
+    padding: 20px 0;
+ }
+ .post-image{
+    height: 300px;
+    overflow: hidden;
+    img{
+        width: 100%;
+        height: auto;
+    }
+}
+.post-content{
+    color: rgb(89, 89, 89);
+    line-height: 20px;
+    margin-bottom: 20px;
+}

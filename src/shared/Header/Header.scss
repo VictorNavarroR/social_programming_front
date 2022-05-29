@@ -1,0 +1,14 @@
+header{
+    display: flex;
+    background: var(--main-color);
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 2px solid var(--accent-color);
+    justify-content:space-between;
+    position: relative;
+    nav{
+        justify-self: flex-end;
+    }
+}
+

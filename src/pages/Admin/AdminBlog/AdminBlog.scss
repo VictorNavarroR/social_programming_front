@@ -1,0 +1,48 @@
+.admin-blog-header{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom:50px;
+    button{
+        align-self: flex-start;
+        position: relative;
+        top:33px;
+    }
+}
+
+    span{
+      color: black;
+    }
+    .rutaForm{
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 40px;
+      input, textarea, select{
+        width: 100%;
+        padding: 15px;
+        margin: 15px 0;
+        border: 1px solid var(--main-color);
+        border-radius: 5px;
+        background-color: rgba(21,151,229, .12);
+      }
+      .primary-btn{
+        align-self: flex-end;
+      }
+    }
+    .catForm{
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 40px;
+      input, textarea{
+        width: 100%;
+        padding: 15px;
+        margin: 15px 0;
+        border: 1px solid var(--main-color);
+        border-radius: 5px;
+        background-color: rgba(21,151,229, .12);
+      }
+      .primary-btn{
+        align-self: flex-end;
+      }
+    }

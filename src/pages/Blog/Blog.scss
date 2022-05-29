@@ -1,0 +1,10 @@
+.blog-wrapper{
+  display:flex;
+  gap: 20px;
+  &__content{
+    width: 80%;
+  }
+  &__sidebar{
+    width: 20%;
+  }
+}

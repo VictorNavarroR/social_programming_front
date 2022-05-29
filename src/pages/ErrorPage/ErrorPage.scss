@@ -1,0 +1,14 @@
+.error-page{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 150px 0;
+    img{
+        max-width: 70%;
+        height:auto
+    }
+    h1{
+        font-size:5em;
+    }
+}

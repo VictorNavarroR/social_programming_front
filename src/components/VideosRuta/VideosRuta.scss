@@ -1,0 +1,12 @@
+.video-rutas-header{
+    display:flex;
+    align-items:flex-start;
+    justify-content: space-between;
+    button{
+        margin-top:30px
+    }
+    .video-actions{
+        display:flex;
+        gap: 20px;
+    }
+}
