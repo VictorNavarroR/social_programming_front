@@ -30,6 +30,10 @@
             text-transform: uppercase;
             margin-bottom:15px
         }
+        .post-detail__back{
+            position: relative;
+            top:20px
+        }
         ul{
             list-style-type: none;
             li{
@@ -48,4 +52,5 @@
             }
         }
     }
+    
 }

@@ -48,6 +48,7 @@ export default function UserList() {
         })
    
    }, [])
+   
   return (
     <>
     <h2>Usuarios registrados</h2>
@@ -69,7 +70,7 @@ export default function UserList() {
                     variant="body2"
                     color="text.primary"
                   >
-                    {user.user_rol[0].name}
+                    {user.user_rol.map(rol => rol.name).join('-')}
                   </Typography>
                   <span style={{position: 'absolute', right: 0}}>{user.email}</span>
                 </React.Fragment>

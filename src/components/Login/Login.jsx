@@ -47,15 +47,15 @@ export default function Login() {
               type: 'error'
           })
           } else {
-            console.log(responseData)
-            const { name, rol, token, image, id, user_paths } = responseData
+            const { name, rol, token, image, id, user_paths, watching } = responseData
             dispatchUser(userReducer.actions.setLogguedUser({
               id, 
               name, 
               image,
               rol: rol[0].name,
               user_paths,
-              token
+              token,
+              watching
             }))
             const userData = {
               id,
@@ -63,7 +63,8 @@ export default function Login() {
               rol: rol[0].name,
               user_paths,
               token,
-              image 
+              image,
+              watching
             }
             
               localStorage.setItem('userData', JSON.stringify(userData));            
@@ -113,7 +114,9 @@ export default function Login() {
               <input type="password" placeholder="Contraseña:" name="password" {...register("password")} required />
               <button type="submit" className="primary-btn">Login <i className="fas fa-sign-in-alt"></i></button>
           </form>
-          No tienes usuario? <a href="/registro" >registrate.</a>
+          <div className="register-area">
+            No tienes usuario? <a href="/registro" >registrate.</a>
+          </div>
       </div>
       <Notification
                 notify={notify}

@@ -10,13 +10,15 @@ import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog'
 import Notification from '../../../../components/Notification/Notification'
 import axios from 'axios'
 import { store, blogState } from '../../../../Store/Store'
+import Loader from '../../../../components/Loader/Loader';
 import './BlogList.scss'
 
-export default function BlogList({ title, excerpt, image, postId }) {
+export default function BlogList({ title, excerpt, image, postId, slug }) {
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
   const userData = JSON.parse(localStorage.getItem('userData'))
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
   const navigate = useNavigate();
+  const [loader, setLoader] = useState(false)
   const deleteTutorial = (postId) => {
     const url = `${config.apiUrl}/pages/${postId}`
 
@@ -34,9 +36,12 @@ export default function BlogList({ title, excerpt, image, postId }) {
                 message: 'El artículo ha sido eliminado correctamente.',
                 type: 'success'
             })
+            
             store.dispatch(blogState.actions.setBlogState('true'))
+            setLoader(false)
             })
             .catch(error => {
+              setLoader(false)
               if(error.response.data.message === 'TokenExpiredError') {
                 setConfirmDialog({
                   isOpen: true,
@@ -62,9 +67,12 @@ export default function BlogList({ title, excerpt, image, postId }) {
       isOpen: true,
       title: 'Seguro que desea eliminar este artículo?',
       subTitle: "Este cambio es irreversible.",
-      onConfirm: () => { deleteTutorial(postId) } 
+      onConfirm: () => { 
+        deleteTutorial(postId)
+        setLoader(true)
+      } 
   })
-    
+      
   }
 
   return (
@@ -87,13 +95,13 @@ export default function BlogList({ title, excerpt, image, postId }) {
           </Typography>
           {userData.rol === 'Admin' || userData.rol === 'Collaborator'?
           <div className="blog-btns">
-            <button className="primary-btn"><i className="fa-solid fa-eye"></i> Ver mas...</button>
+            <button className="primary-btn" onClick={() => navigate('/blog/post/' + slug, {state:{postId}})}><i className="fa-solid fa-eye"></i> Ver mas...</button>
             <button className="primary-btn" onClick={() => navigate('/admin/post/edit/'+postId)}><i className="fa-solid fa-pen-to-square"></i> Editar</button>
             <button className="delete-btn" onClick={() => handleDelete(postId)}><i className="fa-solid fa-trash-can"></i> Eliminar</button>
           </div>
           :
           <div className="blog-btns">
-            <button className="primary-btn"><i className="fa-solid fa-eye"></i> Ver mas...</button>
+            <button className="primary-btn" onClick={() => navigate('/blog/post/' + slug, {state:{postId}})}><i className="fa-solid fa-eye"></i> Ver mas...</button>
           </div>
           }
           
@@ -109,6 +117,11 @@ export default function BlogList({ title, excerpt, image, postId }) {
           confirmDialog={confirmDialog}
           setConfirmDialog={setConfirmDialog}
         />
+        {
+        
+        loader ? <Loader /> : ''
+        
+      } 
     </div>
   )
 }

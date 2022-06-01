@@ -18,13 +18,17 @@ import UserList from './pages/Admin/UserList/UserList';
 import Tutorials from './pages/Tutorials/Tutorials';
 import PostDetail from './pages/Blog/PostDetail/PostDetail'
 import LogOut from './components/LogOut/LogOut';
-import { PrivateRoute}  from './components/PrivateRoute/PrivateRoute';
+import { PrivateRoute }  from './components/PrivateRoute/PrivateRoute';
 import { Provider } from 'react-redux'
 import { store } from './Store/Store'
 import AddRutaVideos from './pages/Admin/AddRutaVideos/AddRutaVideos';
 import AdminBlog from './pages/Admin/AdminBlog/AdminBlog';
 import Video from './components/VideosRuta/Video/Video'
 import BlogEdit from './pages/Admin/AdminBlog/BlogEdit/BlogEdit';
+import Register from './pages/Register/Register';
+import EditUserTutorials from './pages/Admin/UserTutorials/EditUserTutorials/EditUserTutorials';
+import UserFollowedRutas from './pages/Admin/UserFollowedRutas/UserFollowedRutas';
+import EditUserRutas from './pages/Admin/UserRutas/EditUserRutas.jsx/EditUserRutas';
 
 function App() {
 
@@ -44,11 +48,15 @@ function App() {
               <Route path="/blog/post/:slug" element={<PostDetail />} />
               <Route path="/sugerencias" element={<Suggestions />} />
               <Route path="/tutoriales" element={<Tutorials />} />
+              <Route path="/registro" element={<Register />} />
 
               <Route exact path='/admin' element={<PrivateRoute/>}>
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/admin/rutas" element={<UserRutas />} />
+                <Route path="/admin/rutas-seguidas" element={<UserFollowedRutas />} />
+                <Route path="/admin/edit-user-ruta/:id" element={<EditUserRutas />} />
                 <Route path="/admin/tutoriales" element={<UserTutorials />} />
+                <Route path="/admin/tutoriales/edit" element={<EditUserTutorials />} />
                 <Route path="/admin/sugerencias" element={<UserSuggestions />} />
                 <Route path="/admin/usuarios" element={<UserList />} />
                 <Route path="/admin/perfil" element={<UserProfile />} />

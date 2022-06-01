@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './UserRutas.scss'
 import RutasGrid from '../../../components/RutasGrid/RutasGrid'
-import { Formik } from "formik";
+import { Formik } from "formik"
 import { config }  from "../../../config"
 import Notification from '../../../components/Notification/Notification'
 import { useDispatch } from 'react-redux'
@@ -16,7 +16,7 @@ export default function UserRutas() {
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
   const  [rutas, setRutas] = useState([])
   const stateRutas = useSelector( state => state.rutas)
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const dispatchRutas = useDispatch()
   const userData = JSON.parse(localStorage.getItem('userData'))
@@ -29,7 +29,6 @@ export default function UserRutas() {
 
    axios.get(url)
        .then((response) => {
-         console.log(response)
          if(response.error) {
            console.log('Ha habido un error')    
          } else {

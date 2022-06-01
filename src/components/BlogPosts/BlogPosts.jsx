@@ -13,7 +13,7 @@ export default function BlogPosts({posts}) {
                     posts && posts.length > 0 
                     ?
                     posts.map( post => (
-                        <article>
+                        <article key={post._id}>
                         <div className="post-image">
                             <img src={post.image} alt={post.title} />
                         </div>

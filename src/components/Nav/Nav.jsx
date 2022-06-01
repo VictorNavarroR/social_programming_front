@@ -11,11 +11,10 @@ export default function Nav() {
     <>
       <nav>
           <NavLink to={"/"}> Home </NavLink>
+          <NavLink to={"/about"}> Quienes Somos </NavLink>
           <NavLink to={"/rutas"}> Rutas </NavLink>
           <NavLink to={"/tutoriales"}> Tutoriales </NavLink>
-          <NavLink to={"/about"}> Quienes Somos </NavLink>
           <NavLink to={"/blog"}> Blog </NavLink>
-          <NavLink to={"/sugerencias"}> Sugerencias </NavLink>
           {
             userData 
             ?

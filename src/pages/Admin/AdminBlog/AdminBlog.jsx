@@ -9,6 +9,7 @@ import BlogList from './BlogList/BlogList'
 import { useNavigate } from 'react-router-dom'
 import { store, postsHomeReducer, blogState } from '../../../Store/Store'
 import { useSelector } from 'react-redux'
+import Loader from '../../../components/Loader/Loader';
 import './AdminBlog.scss'
 
 export default function AdminBlog() {
@@ -20,21 +21,30 @@ export default function AdminBlog() {
     const [posts, setPosts] = useState([])
     const navigate = useNavigate();
     const stateBlog = useSelector( state => state.blog )
+    const [loader, setLoader] = useState(false)
     const userData = JSON.parse(localStorage.getItem('userData'))
 
+    const convertToSlug = (text) => {
+    return text
+        .toLowerCase()
+        .replace(/ /g,'-')
+        .replace(/[^\w-]+/g,'')  
+    }
 
     useEffect(() => {
 
       const url = `${config.apiUrl}/pages`
-
+      setLoader(true)
         axios.get(url)
           .then(
             (response) => {
               setPosts(response.data)
               store.dispatch(postsHomeReducer.actions.setPostsHome(response.data))
               store.dispatch(blogState.actions.setBlogState('false'))
+              setLoader(false)
             },
             (error) => {
+              setLoader(false)
               if(error.response.data.message === 'TokenExpiredError') {
                 setConfirmDialog({
                   isOpen: true,
@@ -53,6 +63,7 @@ export default function AdminBlog() {
             .then(
               (response) => {
                 setCategories(response.data)
+                setShowCatForm(false)
               },
               (error) => {
                 if(error.response.data.message === 'TokenExpiredError') {
@@ -94,7 +105,7 @@ export default function AdminBlog() {
             categories:""
         }}
         onSubmit={(values, {resetForm}) => {
-
+          setLoader(true)
           const formData = new FormData();
 
           formData.append('title', values.title)
@@ -150,9 +161,6 @@ export default function AdminBlog() {
             if(!values.title) {
               errors.title = 'El campo título no puede estar vacío'
             } 
-            if(!values.slug) {
-              errors.slug = 'El campo slug no puede estar vacío'
-            } 
 
             if(!values.excerpt) {
               errors.excerpt = 'El campo slug excerpt no puede estar vacío.'
@@ -168,9 +176,11 @@ export default function AdminBlog() {
               id="title"
               name="title"
               type="text"
-              onChange={handleChange}
               onBlur={handleBlur}
               value={values.title}
+              onChange={() => {
+                setFieldValue("slug", convertToSlug(values.title));
+              }}
             />
             {errors.title && <div className="error">{errors.title}</div>}
 
@@ -179,10 +189,10 @@ export default function AdminBlog() {
               id="slug"
               name="slug"
               type="text"
+              readonly
               onChange={handleChange}
-              onBlur={handleBlur}
+              value={values.slug}
             />
-            {errors.slug && <div className="error">{errors.slug}</div>} 
             <small style={{color:'gray'}}>Este campo es usado para las url amigables</small><br/>
 
             <label htmlFor="excerpt">Excerpt(*):</label>
@@ -346,7 +356,7 @@ export default function AdminBlog() {
     <div className="blog-list">
       { posts.map( post => {
 
-       return <BlogList title={post.title} excerpt={post.excerpt} image={post.image} postId={post._id} key={post._id} />
+       return <BlogList title={post.title} excerpt={post.excerpt} slug={post.slug} image={post.image} postId={post._id} key={post._id} />
 
       } ) }
     </div>
@@ -359,7 +369,11 @@ export default function AdminBlog() {
             confirmDialog={confirmDialog}
             setConfirmDialog={setConfirmDialog}
         />
-
+      {
+        
+        loader ? <Loader /> : ''
+        
+      } 
     </>
   )
 }

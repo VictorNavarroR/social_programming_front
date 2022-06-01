@@ -7,6 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { store, tutorialState } from '../../Store/Store'
 import { useSelector } from 'react-redux'
+import axios from 'axios'
 
 export default function Tutorials({ showTitle, limit, byUser }) {
 
@@ -21,21 +22,20 @@ export default function Tutorials({ showTitle, limit, byUser }) {
 
     useEffect(() => {
 
-      const request = () => {
+        let userEndPoint = '';
 
         if(userData && userData.rol === "Admin") {
-          return `${config.apiUrl}/tutoriales`
+          userEndPoint = `${config.apiUrl}/tutoriales`
+        } else {
+          userEndPoint = byUser ? `${config.apiUrl}/tutoriales/user/${userData.id}` : `${config.apiUrl}/tutoriales${ limit ? '/limit/'+limit : ''}`
         }
-        return byUser ? `${config.apiUrl}/tutoriales/user/${userData.id}` : `${config.apiUrl}/tutoriales${ limit ? '/limit/'+limit : ''}`
+         
   
-      }
-
-        fetch(request())
-          .then(res => res.json())
+        axios.get(userEndPoint)
           .then(
-            (result) => {
+            (response) => {
               setIsLoaded(true)
-              setTutoriales(result)
+              setTutoriales(response.data)
               store.dispatch(tutorialState.actions.setTutorialState('false'))
             },
             (error) => {
@@ -43,7 +43,7 @@ export default function Tutorials({ showTitle, limit, byUser }) {
               setError(error)
             }
           )
-      }, [stateTutoriales])
+      }, [byUser, stateTutoriales])
       
       if(!location.pathname.includes('/admin')) {
         tutoriales = tutoriales.filter( tutorial => tutorial.isApproved)

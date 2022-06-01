@@ -53,6 +53,7 @@ export default function Admin() {
             subtitle={`Haz accedido como ${traductor[userData.rol]}` }
             content="Desde aquí podrás manejar los contenidos según tu perfil. eres parte de la mejor comunidad para el aprendizage gratuito y sin limites!"
             btnText="Publicar un post"
+            showBtn={userData.rol !== 'Student' ? true : false}
             urlTo="/admin/blog"
             />
         

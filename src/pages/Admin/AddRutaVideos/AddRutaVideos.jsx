@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { Formik } from "formik";
 import { config } from '../../../config'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import Notification from '../../../components/Notification/Notification'
 import axios from 'axios'
 import './AddRutaVideos.scss'
@@ -10,9 +10,11 @@ export default function AddRutaVideos() {
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
   const { id } = useParams();
   const userData = JSON.parse(localStorage.getItem('userData'))
+  const [searchParams, setSearchParams] = useSearchParams()
+
   return (
     <div className="rutasPage">
-    <h2>Agregar Vídeo</h2>
+    <h2>Agregar Vídeos a la ruta {searchParams.get("ruta-name")}</h2>
     <Formik
         initialValues={{
             name: "",
@@ -126,7 +128,7 @@ export default function AddRutaVideos() {
             {errors.video_url && <div className="error">{errors.video_url}</div>}             
                      
 
-            <button type="submit" className="primary-btn">Agregar vídeo</button>
+            <button type="submit" className="primary-btn">Agregar vídeo a ruta</button>
           </form>
             )}
       </Formik>

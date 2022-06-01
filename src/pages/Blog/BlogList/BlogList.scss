@@ -15,12 +15,33 @@
         }
     }
     &__meta{
-        padding:10px 0;
-        font-size: .9rem;
-        align-self: flex-end;
+        padding:20px 0 5px 0;
+        display:flex;
+        border-bottom: 1px solid #ccc;
+        justify-content: space-between;
+        &__info{
+            font-size: .9rem;
+        }
+        &__social{
+            align-self: flex-end;
+        }
     }
     &__actions{
         padding:10px 0;
         align-self: flex-end;
     }
 }
+.react-sharing-button__text{
+    color:white;
+    font-size:.8rem;
+
+}
+.react-sharing-button__link{
+    position: relative;
+    top: -10px;
+    margin:0 10px;
+    &:hover{
+        text-decoration:none
+    }
+}
+

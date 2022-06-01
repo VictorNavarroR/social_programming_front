@@ -25,7 +25,7 @@ export default function Home() {
       title='Bienvenidos a <span>Social Programming</span>'
       subtitle='Desarrollo de software desbloqueado para todos!'
       content='<a href="http://google.com">Social Programming</a> es el mejor lugar para aprender desarrollo de software desde cero y con coste cero, hemos recolectado una gran cantidad de material de aprendizaje y lo hemos puesto en un
-                    solo lugar para que tu camino hacia al desarrollo de software sea facil y a coste cero.'
+                    solo lugar para que tu camino hacia al desarrollo de software sea facil y a coste cero. <a href="/registro">Registrate</a> ya sea como colaborador o estudiante y se parte de nuestra comunidad'
       btnText='Más sobre nosotros'
       urlTo="/about"
        />   

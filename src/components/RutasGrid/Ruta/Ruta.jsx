@@ -80,7 +80,7 @@ export default function Ruta({ title, imgSrc, linkTo, rutaId }) {
           ?
           <Stack spacing={2} direction="row" className="actions">
               <Button variant="contained" onClick={()=> handleDeleteRuta(rutaId)} color="error"><i className="fa fa-solid fa-trash"></i> Eliminar</Button>
-              <Button variant="contained"><i className="fa fa-solid fa-pen-to-square"></i> Editar</Button>
+              <Button variant="contained" onClick={ () => { navigate(`/admin/edit-user-ruta/${rutaId}/?ruta-name=${title}`) }} ><i className="fa fa-solid fa-pen-to-square"></i> Editar</Button>
           </Stack>
           :
           ''

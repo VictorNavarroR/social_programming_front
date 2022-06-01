@@ -112,7 +112,6 @@ export const getRutas = () => {
 }
 export const getHomePosts = () => {
     const homePosts = `${config.apiUrl}/pages`
-    console.log('entra')
     axios.get(homePosts)
         .then((response) => {
             if(response.error) {

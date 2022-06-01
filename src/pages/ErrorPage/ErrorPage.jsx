@@ -6,7 +6,7 @@ export default function ErrorPage() {
     <div className="error-page">
     <img src="../../../../assets/sad.gif" />
     <h1>404</h1>
-    <h2>404 La pagina que busca no existe cabron!</h2>
+    <h2>404 La pagina que busca no existe.</h2>
     </div>
   )
 }

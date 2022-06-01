@@ -6,42 +6,30 @@ import { TextEditor } from "../../../../components/TextEditor/TextEditor";
 import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog'
+import { useSelector } from 'react-redux'
+import { getHomePosts } from '../../../../Store/Store'
 import './BlogEdit.scss'
+import Loader from '../../../../components/Loader/Loader';
 
 export default function BlogEdit() {
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
     const userData = JSON.parse(localStorage.getItem('userData'))
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
     const [ categories, setCategories ] = useState([])
-    const [ post, setPost ] = useState([])
+    const [loader, setLoader] = useState(false)
+
+    const posts = useSelector( state => state.posts)
+
     const navigate = useNavigate();
+
     const { id } = useParams();
 
-    useEffect(() => {
+    const filteredPost = posts.filter( post => post._id === id)
+    const post = filteredPost[0]
 
-        const postUrl = `${config.apiUrl}/pages/${id}`
-  
-            axios.get(postUrl)
-              .then(
-                (response) => {
-                    setPost(response.data)
-                },
-                (error) => {
-                  if(error.response.data.message === 'TokenExpiredError') {
-                    setConfirmDialog({
-                      isOpen: true,
-                      noCancel:true,
-                      title: 'Su sesión ha caducado?',
-                      subTitle: "Será redireccionado a la pagina de login para que  inserte sus credenciales.",
-                      onConfirm: () => { navigate('/logout') }
-                    })
-                  }
-                }
-              )
-
-
-            const categoriesUrl = `${config.apiUrl}/categories`
-  
+    const getCategories = () => {
+          const categoriesUrl = `${config.apiUrl}/categories`
+            if(categories.length === 0) {
             axios.get(categoriesUrl)
               .then(
                 (response) => {
@@ -59,42 +47,55 @@ export default function BlogEdit() {
                   }
                 }
               )
+            }
+    }
+
+    useEffect(() => {
+
+      if(posts.length === 0) {
+        getHomePosts()
+      }
+      
+        if(categories.length === 0) {
+          getCategories()
+        }
             
-        }, [id, navigate])
+    }, [])
 
   return (
     <div style={{margin:'50px 0'}} className="admin-blog-form">
         <h2>Editar artículo</h2>
         <Formik
-        
+        enableReinitialize={true}
         initialValues = {{
-            title: '',
-            slug: "",
-            excerpt: "",
-            content:"",
+            title:  post?.title,
+            slug: post?.slug,
+            excerpt: post?.excerpt ,
+            content:post?.content,
             image:"",
             type:"post",
-            categories:""
+            category:post?.category
         }}
 
-        onSubmit={(values, {resetForm}) => {
-
-          const formData = new FormData();
+        onSubmit={(values) => {
+          setLoader(true)
+          const formData = new FormData()
 
           formData.append('title', values.title)
           formData.append('slug', values.slug)
           formData.append('excerpt', values.excerpt)
           formData.append('image', values.image)
           formData.append('content', values.content)
+          formData.append('category', values.category)
           formData.append('created_by', userData.id)
           formData.append('type', 'post')
           
-          const url = `${config.apiUrl}/pages`
+          const url = `${config.apiUrl}/pages/${post._id}`
           const headers = { 
-            "Content-Type": "form-data",
+            'Content-Type': 'form-data',
             'Authorization': `Bearer ${userData.token}`,
           };
-          axios.post(url, formData, { headers })
+          axios.put(url, formData, { headers })
               .then(response => {
                 if(response.ok === false) {
                       setNotify({
@@ -103,15 +104,19 @@ export default function BlogEdit() {
                       message: 'Ha habido un error inesperado.',
                       type: 'error'
                   })
-                  
-                  return
+                  setLoader(false)
                 }
                 setNotify({
                   isOpen: true,
                   title:'Exito!',
-                  message: 'El artículo se ha agregado correctamente.',
+                  message: 'El artículo se ha editado correctamente.',
                   type: 'success'
               })
+              setLoader(false)
+              setTimeout(() => {
+                    navigate('/admin/blog')
+                  }, 800)
+                  return
               })
               .catch(error => {
                 if(error.response.data.message === 'TokenExpiredError') {
@@ -124,7 +129,7 @@ export default function BlogEdit() {
                   })
                 }
               })
-          resetForm()
+
         }}
         validate={ (values) => {
 
@@ -153,7 +158,7 @@ export default function BlogEdit() {
               type="text"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={ post ? post.title : ''}
+              value={values.title}
             />
             {errors.title && <div className="error">{errors.title}</div>}
 
@@ -164,7 +169,7 @@ export default function BlogEdit() {
               type="text"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={ post ? post.slug : ''}
+              value={ values.slug}
             />
             {errors.slug && <div className="error">{errors.slug}</div>} 
             <small style={{color:'gray'}}>Este campo es usado para las url amigables</small><br/>
@@ -176,20 +181,20 @@ export default function BlogEdit() {
               type="text"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={ post ? post.excerpt : ''}
+              value={ values.excerpt}
             />
             {errors.excerpt && <div className="error">{errors.excerpt}</div>} 
             <small style={{color:'gray'}}>Este campo es usado para mostrar extracto en la pagina de blog</small><br/>
 
             <label htmlFor="email" style={{ display: "block" }}>
-            Categories
+            Categoría
             </label>
             <select
-              multiple
-              name="categorias"
+              name="category"
               onChange={handleChange}
               onBlur={handleBlur}
               style={{ display: "block" }}
+              value={ values.category}
             >
               <option value="" label="Selecciona una categoría">
                 Selecciona una categoría{" "}
@@ -206,7 +211,7 @@ export default function BlogEdit() {
         
             <div className="post-img-select">
                 <div className="post-img">
-                    <img src={post.image} alt={post.title}/>
+                    <img src={post?.image} alt={post?.title}/>
                 </div>
                 <div className="post-img-field">
                 <label htmlFor="image">Imagen(*):</label>
@@ -228,13 +233,27 @@ export default function BlogEdit() {
             <label htmlFor="content">Contenido:</label>
             <TextEditor
                 setFieldValue={(val) => setFieldValue("content", val)}
-                value={post ? post.content : ''}
+                value={values.content}
                 />        
 
             <button type="submit" className="primary-btn">Actualizar artículo</button>
           </form>
             )}
       </Formik>
+      <ConfirmDialog
+          confirmDialog={confirmDialog}
+          setConfirmDialog={setConfirmDialog}
+        />
+      <Notification
+                notify={notify}
+                setNotify={setNotify}
+            />
+      {
+        
+        loader ? <Loader /> : ''
+        
+      }      
+           
         </div>
   )
 }

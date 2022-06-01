@@ -1,0 +1,19 @@
+.ruta-img-wrap{
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    gap:30px;
+    .ruta-input{
+        width: 100%;
+    }
+    .ruta-img{
+        width:100px;
+        height:100px;
+        overflow: hidden;
+        img{
+            width:100%;
+            height:100%;
+            object-fit: cover;
+        }
+    }
+}

@@ -8,7 +8,6 @@ import './PathDetail.scss'
 export default function PathDetail() {
 
   useEffect( () => {
-    console.log('entra')
       getRutas()
   }, [])
 

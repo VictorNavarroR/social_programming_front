@@ -12,6 +12,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Notification from '../../components/Notification/Notification'
+import ConfirmDialog from '../../components/ConfirmDialog/ConfirmDialog'
 
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -20,10 +21,55 @@ import './VideosRuta.scss'
 
 
 export default function VideosRuta({ rutaId, name }) {
-const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
+ const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
+ const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
  const userData = JSON.parse(localStorage.getItem('userData'))
  const [videos, setVideos] = useState([])
+ const [like, setLike] = useState(false)
+ 
  const navigate = useNavigate();
+ 
+ const handleLike = (videoId) => {
+
+  if(!userData) {
+    setNotify({
+      isOpen: true,
+      title:'Ups!',
+      message: 'Es necesario estar logueado para dar likes.',
+      type: 'warning'
+   })
+   return
+  }
+
+  const url = `${config.apiUrl}/ruta-videos/like/${videoId}`
+
+  const headers = { 
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${userData.token}`,
+  };
+
+  axios.put(url, {likes: userData.id}, { headers })
+    .then(response => {
+      setLike(true)
+      })
+      .catch(error => {
+        setNotify({
+            isOpen: true,
+            title:'Ups!',
+            message: 'Algo ha salido mal: ' + error,
+            type: 'error'
+         })
+         if(error.response.data.message === 'TokenExpiredError') {
+          setConfirmDialog({
+            isOpen: true,
+            noCancel:true,
+            title: 'Su sesión ha caducado?',
+            subTitle: "Será redireccionado a la pagina de login para que  inserte sus credenciales.",
+            onConfirm: () => { navigate('/logout') }
+          })
+        }
+      })
+ }
 
  const handleFollowRoute = (rutaId) => {
   const url = `${config.apiUrl}/users/ruta/${rutaId}`
@@ -50,6 +96,15 @@ const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
             message: 'Algo ha salido mal: ' + error,
             type: 'error'
          })
+         if(error.response.data.message === 'TokenExpiredError') {
+          setConfirmDialog({
+            isOpen: true,
+            noCancel:true,
+            title: 'Su sesión ha caducado?',
+            subTitle: "Será redireccionado a la pagina de login para que  inserte sus credenciales.",
+            onConfirm: () => { navigate('/logout') }
+          })
+        }
       })
  }
 
@@ -68,9 +123,18 @@ const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
        }
        
      ) 
-     .catch(error => console.log('Error getting routes: ', error))
+     .catch(error => {
+       if(error.response.data.message === 'TokenExpiredError') {
+      setConfirmDialog({
+        isOpen: true,
+        noCancel:true,
+        title: 'Su sesión ha caducado?',
+        subTitle: "Será redireccionado a la pagina de login para que  inserte sus credenciales.",
+        onConfirm: () => { navigate('/logout') }
+      })
+    }})
 
-}, [])
+}, [like])
 
   return (
     <div>
@@ -92,7 +156,7 @@ const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
           : 
           <div className="video-actions"> 
           { userData && userData.rol === 'Admin' ?
-          <button className="primary-btn" onClick={() => { navigate('/admin/add-video/'+rutaId) }}><i className="fa-solid fa-video"></i> Agregar vídeos </button>
+          <button className="primary-btn" onClick={() => { navigate('/admin/add-video/'+rutaId+'?ruta-name='+name) }}><i className="fa-solid fa-video"></i> Agregar vídeos </button>
           :
           ''
           } 
@@ -124,7 +188,7 @@ const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
           </CardContent>
           <CardActions style={{justifyContent: "space-between"}}>
             <Button size="small" onClick={() => {
-              userData.name !== '' 
+              userData && userData.name !== '' 
               ?
               navigate('/admin/video/'+video._id)
               :
@@ -135,7 +199,7 @@ const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
                 type: 'warning'
             })
               }}>Ver</Button>
-            <Button size="small"><i className="fa-solid fa-heart"></i></Button>
+            <Button size="small" onClick={() => handleLike(video._id)}><i style={{ color: video.likes.includes(userData ? userData.id : 0) ? 'red': '#69dadb'}} className="fa-solid fa-heart"></i> <span className="likes">{video.likes.length > 0 ? video.likes.length : 0}</span></Button>
           </CardActions>
         </Card>
         </Grid>
@@ -149,6 +213,10 @@ const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
     }
     </Grid>
     </Box>
+    <ConfirmDialog
+            confirmDialog={confirmDialog}
+            setConfirmDialog={setConfirmDialog}
+        />
     <Notification
                 notify={notify}
                 setNotify={setNotify}

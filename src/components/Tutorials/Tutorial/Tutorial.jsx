@@ -7,12 +7,14 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { store, tutorialState } from '../../../Store/Store'
 import { config } from '../../../config'
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 export default function Tutorial({ id, tutorialTitle, tutorialBtnTxt, linkTo, image, approved }) {
     const [isOpen, setOpen] = useState(false)
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
+    const navigate = useNavigate();
 
     const userData = JSON.parse(localStorage.getItem('userData'))
 
@@ -25,7 +27,7 @@ export default function Tutorial({ id, tutorialTitle, tutorialBtnTxt, linkTo, im
     const approveTutorial = (tutorialId) => {
 
 
-            const url = `${config.apiUrl}/tutoriales/${tutorialId}`
+            const url = `${config.apiUrl}/tutoriales/approve/${tutorialId}`
 
             const headers = { 
               'Content-Type': 'application/json',
@@ -104,7 +106,7 @@ export default function Tutorial({ id, tutorialTitle, tutorialBtnTxt, linkTo, im
             </button>
             <img src={image} alt={tutorialTitle} />
             {
-                userData && userData.rol === 'Admin'
+                userData && userData.rol === 'Admin' 
             ?
                 <Stack spacing={2} direction="row" className="actions">
                     {approved 
@@ -114,7 +116,17 @@ export default function Tutorial({ id, tutorialTitle, tutorialBtnTxt, linkTo, im
                     <Button variant="contained" onClick={() => approveTutorial(id)} color='warning'><i className="fa fa-solid fa-check"></i>Aprobar</Button>
                     }
                     <Button variant="contained" onClick={()=> handleDeleteTutorial(id)} color="error"><i className="fa fa-solid fa-trash"></i> Eliminar</Button>
-                    <Button variant="contained"><i className="fa fa-solid fa-pen-to-square"></i> Editar</Button>
+                    <Button variant="contained" onClick={() => navigate('/admin/tutoriales/edit')}><i className="fa fa-solid fa-pen-to-square"></i> Editar</Button>
+                </Stack>
+            :
+            ''            
+           }
+           {
+                userData && userData.rol === 'Collaborator' 
+            ?
+                <Stack spacing={2} direction="row" className="actions">
+                    <Button variant="contained" onClick={() => navigate('/admin/tutoriales/edit')}><i className="fa fa-solid fa-pen-to-square"></i> Editar</Button>
+                    <Button variant="contained" onClick={()=> handleDeleteTutorial(id)} color="error"><i className="fa fa-solid fa-trash"></i> Eliminar</Button>
                 </Stack>
             :
             ''            

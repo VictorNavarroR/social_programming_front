@@ -12,14 +12,22 @@ const userData = JSON.parse(localStorage.getItem('userData'))
     <NavLink to={"/"}> <i className="fa-solid fa-house"></i> </NavLink>
     <NavLink to={"/admin"} end> Dashboard </NavLink>
     {
+      userData && userData.rol === 'Student' ? <NavLink to={"/admin/rutas-seguidas"} end> Mis rutas seguidas </NavLink> : ''
+    }
+    {
       userData && userData.rol === 'Admin' ? <NavLink to={"/admin/rutas"}> Rutas </NavLink> : ''
     }
-    <NavLink to={"/admin/tutoriales"}> Tutoriales </NavLink>
+    {
+      userData && (userData.rol === 'Admin' || userData.rol === 'Collaborator') ? <NavLink to={"/admin/tutoriales"}> Tutoriales </NavLink> : ''
+    }
     {
       userData && userData.rol === 'Admin' ? <NavLink to={"/admin/usuarios"}> Usuarios </NavLink> : ''
     }
-    <NavLink to={"/admin/blog"}> Blog </NavLink>
-    <NavLink to={"/admin/sugerencias"}> Sugerencias recibidas </NavLink>
+    {
+      userData && (userData.rol === 'Admin' || userData.rol === 'Collaborator') ? <NavLink to={"/admin/blog"}> Blog </NavLink> : ''
+    }
+    
+
     <img className="user-img" onClick={() => setShowLogin(!ShowLogin)} src={userData.image} alt={userData.name}/>
     {
       ShowLogin ? <Login /> : null
