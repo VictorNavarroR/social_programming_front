@@ -58,7 +58,7 @@ export default function EditUserRutas() {
                 'Authorization': `Bearer ${userData.token}`,
               }
 
-          axios.put(url, formData, { headers })
+        axios.put(url, formData, { headers })
           .then(response => {
                 if(response.ok === false) {
                       setNotify({

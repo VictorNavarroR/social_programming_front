@@ -26,6 +26,8 @@ export default function VideosRuta({ rutaId, name }) {
  const userData = JSON.parse(localStorage.getItem('userData'))
  const [videos, setVideos] = useState([])
  const [like, setLike] = useState(false)
+ const [update, setUpdate] = useState(false)
+ const [user, setUser] = useState({})
  
  const navigate = useNavigate();
  
@@ -88,6 +90,7 @@ export default function VideosRuta({ rutaId, name }) {
           message: 'Ha comenzado a seguir la ruta ' + name,
           type: 'success'
       })
+      setUpdate(true)
       })
       .catch(error => {
         setNotify({
@@ -134,18 +137,44 @@ export default function VideosRuta({ rutaId, name }) {
       })
     }})
 
-}, [like])
+    if(userData) {
+    const userUrl = `${config.apiUrl}/users/${userData.id}`
+
+    axios.get(userUrl)
+        .then((response) => {
+          if(response.error) {
+            console.log('Ha habido un error')    
+          } else {
+             setUser(response.data)
+          }
+                                   
+          }
+          
+        ) 
+        .catch(error => {
+          if(error.response.data.message === 'TokenExpiredError') {
+         setConfirmDialog({
+           isOpen: true,
+           noCancel:true,
+           title: 'Su sesión ha caducado?',
+           subTitle: "Será redireccionado a la pagina de login para que  inserte sus credenciales.",
+           onConfirm: () => { navigate('/logout') }
+         })
+       }})
+      }
+
+}, [like, update])
 
   return (
     <div>
     <div className="video-rutas-header">
         <h2>Vídeos de la ruta</h2>
         {
-          userData && userData.rol === 'Student' 
+          user.user_rol &&  user?.user_rol[0].name === 'Student' 
           ? 
           <div className="video-actions">
-          {userData.user_paths.length > 0 && userData.user_paths.includes(rutaId) ?
-            <button className="success-btn"><i class="fa-solid fa-check"></i> Siguiendo </button>
+          {user.user_paths.length > 0 && user.user_paths.includes(rutaId) ?
+            <button className="success-btn"><i className="fa-solid fa-check"></i> Siguiendo </button>
            :
            <button className="secondary-btn" onClick={() => {
             handleFollowRoute(rutaId)
@@ -155,7 +184,7 @@ export default function VideosRuta({ rutaId, name }) {
           </div>
           : 
           <div className="video-actions"> 
-          { userData && userData.rol === 'Admin' ?
+          { user && user.rol === 'Admin' ?
           <button className="primary-btn" onClick={() => { navigate('/admin/add-video/'+rutaId+'?ruta-name='+name) }}><i className="fa-solid fa-video"></i> Agregar vídeos </button>
           :
           ''

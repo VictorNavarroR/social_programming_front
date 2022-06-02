@@ -3,6 +3,7 @@ import { Formik } from "formik";
 import { config } from '../../../config'
 import { useParams, useSearchParams } from 'react-router-dom'
 import Notification from '../../../components/Notification/Notification'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import './AddRutaVideos.scss'
 
@@ -11,6 +12,7 @@ export default function AddRutaVideos() {
   const { id } = useParams();
   const userData = JSON.parse(localStorage.getItem('userData'))
   const [searchParams, setSearchParams] = useSearchParams()
+  const navigate = useNavigate()
 
   return (
     <div className="rutasPage">
@@ -56,6 +58,9 @@ export default function AddRutaVideos() {
                   message: 'El vídeo se ha agregado correctamente.',
                   type: 'success'
               })
+              setTimeout(() => {
+                navigate(`/ruta/${id}`)
+              }, 1500)
               })
               .catch(error => console.log('Form submit error', error))
           resetForm()
@@ -66,9 +71,7 @@ export default function AddRutaVideos() {
 
             if(!values.name) {
               errors.nombre = 'El campo nombre no puede estar vacío'
-            } else if(!/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(values.name)) {
-              errors.nombre = 'Este campo solo puede contener letras y espacios.'
-            }
+            } 
             if(!values.video_url) {
               errors.video_url = 'El campo Url Video no puede estar vacío'
             } 

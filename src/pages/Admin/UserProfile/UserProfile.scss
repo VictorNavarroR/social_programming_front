@@ -1,0 +1,21 @@
+.perfil{
+    display:flex;
+    gap: 40px;
+    .perfil__sidebar{
+        width: 20%;
+        .perfil__userimg{
+            width: 100%;
+            img{
+                width: 90%;
+                height: auto;
+                display: block;
+                margin: 0 auto;
+                border: 5px solid white;
+                box-shadow: 0 0 10px rgba(0,0,0,.5);
+            }
+        }
+    }
+    .perfil__form{
+        width: 80%; 
+    }
+}

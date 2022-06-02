@@ -116,7 +116,7 @@ export default function Tutorial({ id, tutorialTitle, tutorialBtnTxt, linkTo, im
                     <Button variant="contained" onClick={() => approveTutorial(id)} color='warning'><i className="fa fa-solid fa-check"></i>Aprobar</Button>
                     }
                     <Button variant="contained" onClick={()=> handleDeleteTutorial(id)} color="error"><i className="fa fa-solid fa-trash"></i> Eliminar</Button>
-                    <Button variant="contained" onClick={() => navigate('/admin/tutoriales/edit')}><i className="fa fa-solid fa-pen-to-square"></i> Editar</Button>
+                    <Button variant="contained" onClick={() => navigate(`/admin/tutoriales/edit/${id}`)}><i className="fa fa-solid fa-pen-to-square"></i> Editar</Button>
                 </Stack>
             :
             ''            
@@ -125,7 +125,7 @@ export default function Tutorial({ id, tutorialTitle, tutorialBtnTxt, linkTo, im
                 userData && userData.rol === 'Collaborator' 
             ?
                 <Stack spacing={2} direction="row" className="actions">
-                    <Button variant="contained" onClick={() => navigate('/admin/tutoriales/edit')}><i className="fa fa-solid fa-pen-to-square"></i> Editar</Button>
+                    <Button variant="contained" onClick={() => navigate(`/admin/tutoriales/edit/${id}`)}><i className="fa fa-solid fa-pen-to-square"></i> Editar</Button>
                     <Button variant="contained" onClick={()=> handleDeleteTutorial(id)} color="error"><i className="fa fa-solid fa-trash"></i> Eliminar</Button>
                 </Stack>
             :

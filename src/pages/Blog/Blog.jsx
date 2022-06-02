@@ -89,7 +89,7 @@ export default function Blog() {
             }
             </ul>
 
-      <h3 style={{marginTop:'50px'}}>Categorías</h3>
+      {/* <h3 style={{marginTop:'50px'}}>Categorías</h3>
             <ul>
             <li><a onClick={() => handleCategory('sin_categoria')}>Sin categoría</a></li>
               {
@@ -101,7 +101,7 @@ export default function Blog() {
                 ))
                 
               }
-              </ul>            
+              </ul>             */}
 
       </div>
       <ConfirmDialog

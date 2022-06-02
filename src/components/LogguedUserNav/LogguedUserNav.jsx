@@ -12,7 +12,7 @@ const userData = JSON.parse(localStorage.getItem('userData'))
     <NavLink to={"/"}> <i className="fa-solid fa-house"></i> </NavLink>
     <NavLink to={"/admin"} end> Dashboard </NavLink>
     {
-      userData && userData.rol === 'Student' ? <NavLink to={"/admin/rutas-seguidas"} end> Mis rutas seguidas </NavLink> : ''
+      userData && userData.rol === 'Student' ? <NavLink to={"/admin/rutas-seguidas"} end> Rutas </NavLink> : ''
     }
     {
       userData && userData.rol === 'Admin' ? <NavLink to={"/admin/rutas"}> Rutas </NavLink> : ''

@@ -182,6 +182,9 @@ $alert-extra-padding: 50px;
     padding:20px 0;
     color: rgb(57, 57, 57);
 }
+input:disabled{
+    background-color:rgb(236, 236, 236) !important;
+}
 
 /*Errores en formato */
 .error{

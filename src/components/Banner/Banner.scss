@@ -57,3 +57,9 @@
     align-self: flex-end;
     z-index: 1;
 }
+
+@media screen and (max-width: 768px){
+    .intro-btn{
+        align-self: center;
+    }
+}

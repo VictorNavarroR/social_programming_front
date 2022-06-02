@@ -52,7 +52,7 @@ export default function Login() {
               id, 
               name, 
               image,
-              rol: rol[0].name,
+              rol: rol.map( rol => rol.name).join(''),
               user_paths,
               token,
               watching
@@ -60,7 +60,7 @@ export default function Login() {
             const userData = {
               id,
               name,
-              rol: rol[0].name,
+              rol: rol.map( rol => rol.name).join(''),
               user_paths,
               token,
               image,

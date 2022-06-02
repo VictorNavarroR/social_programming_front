@@ -60,6 +60,7 @@ export default function UserRutas() {
     <div className="rutasPage">
       <h2>Agregar nueva ruta</h2>
       <Formik
+      enableReinitialize={true}
         initialValues={{
             name: "",
             image: "",

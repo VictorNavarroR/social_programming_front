@@ -29,7 +29,7 @@ export default function UserTutorials() {
           const formData = new FormData();
 
           formData.append('name', values.name)
-          formData.append('description', values.category)
+          formData.append('category', values.category)
           formData.append('link', values.link)
           formData.append('image', values.image)
           formData.append('uploaded_by', userData.id)

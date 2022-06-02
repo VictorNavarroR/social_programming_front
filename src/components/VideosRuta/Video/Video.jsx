@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import YouTube from '@u-wave/react-youtube';
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog'
 import { useNavigate } from 'react-router-dom'
+import {usePrompt} from '../../../customHooks/useBlocker'
 import axios from 'axios'
 import './Video.scss'
 
@@ -16,6 +17,7 @@ export default function Video() {
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
   const { id } = useParams();
   const navigate = useNavigate();
+
 
   const extractVideoID = (url) => {
     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
@@ -93,6 +95,7 @@ export default function Video() {
    
    }, [id])
 
+   usePrompt( 'Seguro que desea salir?, su vídeo se iniciará desde el punto donde lo ha dejado.', true )
    const videoTime = videoWatching.filter( video => video.video === videoId)
   return (
     <div className="video-wrapper">

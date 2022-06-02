@@ -1,0 +1,15 @@
+.tutorial-img-wrapper{
+    display: flex;
+    width: 100%;
+    gap:30px;
+    .tutorial-img{
+        width: 10%;
+        img{
+            width: 100%;
+            height: auto
+        }
+    }
+    .tutorial-input{
+        width: 100%;
+    }
+}

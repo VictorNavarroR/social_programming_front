@@ -30,7 +30,7 @@ export default function UserFollowedRutas() {
 
   return (
     <div>
-        <h2>Mis rutas seguidas</h2>
+        <h2>Rutas</h2>
         <RutasGrid rutas={rutas} />
     </div>
   )

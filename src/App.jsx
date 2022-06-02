@@ -56,7 +56,7 @@ function App() {
                 <Route path="/admin/rutas-seguidas" element={<UserFollowedRutas />} />
                 <Route path="/admin/edit-user-ruta/:id" element={<EditUserRutas />} />
                 <Route path="/admin/tutoriales" element={<UserTutorials />} />
-                <Route path="/admin/tutoriales/edit" element={<EditUserTutorials />} />
+                <Route path="/admin/tutoriales/edit/:id" element={<EditUserTutorials />} />
                 <Route path="/admin/sugerencias" element={<UserSuggestions />} />
                 <Route path="/admin/usuarios" element={<UserList />} />
                 <Route path="/admin/perfil" element={<UserProfile />} />

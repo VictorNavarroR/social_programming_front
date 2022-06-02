@@ -10,7 +10,8 @@ export default function Home() {
 
   const rutas = useSelector( state => state.rutasHome)
   const posts = useSelector( state => state.posts)
-  
+
+   
   useEffect( () => {
     if(rutas.length === 0) {
       getRutasHome()

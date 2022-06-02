@@ -33,3 +33,31 @@
     }
   }
 }
+@media screen and (max-width: 1218px) {
+  .blog-wrapper{
+    .post__social{
+      a{
+        margin: 10px auto;
+      }
+    }
+  }
+}
+@media screen and (max-width: 992px) {
+  .blog-wrapper{
+    flex-direction: column;
+    &__content{
+      width: 100%;
+    }
+    &__sidebar{
+      width: 100%;
+    }
+    .blog-wrapper__sidebar{
+      width: 100%;
+    }
+    .post__social{
+      a{
+        margin: 10px auto;
+      }
+    }
+  }
+}
